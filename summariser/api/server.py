@@ -19,8 +19,11 @@ class Payload(BaseModel):
 class Summaries(BaseModel):
     summaries: List[str] = Field(None, title="Summaries")
 
-@app.post("/summarise", response_model=Summaries, status_code=200)
-def summarise(sentences: Payload):
-    summaries = summariser.summarise(sentences.sentences)
+async def summarise_async(sentences):
+    return summariser.summarise(sentences)
+
+@app.post("/summarise", response_model=Summaries, status_code=200, name="summarise")
+async def summarise(sentences: Payload):
+    summaries = await summarise_async(sentences.sentences)
     summaries = Summaries(summaries=summaries)
     return summaries
