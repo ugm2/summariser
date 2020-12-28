@@ -1,9 +1,9 @@
 from transformers import XLMProphetNetTokenizer, XLMProphetNetForConditionalGeneration
 import torch
-from summariser.core import config
+from summariser import config
 import logging
 
-logger = logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=config.LOGGING_LEVEL)
 
 class Summariser:
 
@@ -11,15 +11,15 @@ class Summariser:
                  model_path: str = config.DEFAULT_MODEL_PATH,
                  use_cuda: bool = config.GPU,
                  batch_size: int = config.BATCH_SIZE):
-        logger.info("Loading model...")
+        logging.info("Loading model...")
         self.model_path = model_path
         self.use_cuda = use_cuda
         self.batch_size = batch_size
         self.device = "cuda" \
             if torch.cuda.is_available() and self.use_cuda else "cpu"
-        self.tokenizer = XLMProphetNetTokenizer(self.model_path)
-        self.model = XLMProphetNetForConditionalGeneration(self.model_path)
+        self.model = XLMProphetNetForConditionalGeneration.from_pretrained(self.model_path)
+        self.tokenizer = XLMProphetNetTokenizer.from_pretrained(self.model_path)
         self.model.to(self.device)
-        logger.info("Device: ", self.device)
-        logger.info("Num GPUs Available: ", torch.cuda.device_count())
-        logger.info("Model loaded")
+        logging.info(f"Device: {self.device}")
+        logging.info(f"Num GPUs Available: {torch.cuda.device_count()}")
+        logging.info(f"Model loaded")
