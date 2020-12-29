@@ -15,15 +15,24 @@ class Payload(BaseModel):
     sentences: List[str] = Field([first_example, 
                                   second_example],
                                  title="Input sentences")
+    max_length: int = Field(100,
+                            title="Maximum summary length")
+    min_length: int = Field(0,
+                            title="Minimum summary length")
+    num_beams: int = Field(4,
+                           title="Number of exploratory beams")
 
 class Summaries(BaseModel):
     summaries: List[str] = Field(None, title="Summaries")
 
-async def summarise_async(sentences):
-    return summariser.summarise(sentences)
+async def summarise_async(sentences, max_length, min_length, num_beams):
+    return summariser.summarise(sentences, max_length, min_length, num_beams)
 
 @app.post("/summarise", response_model=Summaries, status_code=200, name="summarise")
-async def summarise(sentences: Payload):
-    summaries = await summarise_async(sentences.sentences)
+async def summarise(payload: Payload):
+    summaries = await summarise_async(payload.sentences,
+                                      payload.max_length,
+                                      payload.min_length,
+                                      payload.num_beams)
     summaries = Summaries(summaries=summaries)
     return summaries

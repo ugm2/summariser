@@ -45,7 +45,7 @@ class Summariser:
         logging.info(f"Num GPUs Available: {torch.cuda.device_count()}")
         logging.info(f"Model loaded")
 
-    def summarise(self, sentences: List[str]):
+    def summarise(self, sentences: List[str], max_length=100, min_length=0, num_beams=4):
         '''
         Generate summaries from input sentences
 
@@ -61,12 +61,14 @@ class Summariser:
         # Loop over batches of sentences
         for sentences_batch in tqdm(sentences_chunks):
             # Tokenize batch of sentences
-            inputs = self.tokenizer(sentences_batch, padding=True, max_length=256, return_tensors='pt')
+            inputs = self.tokenizer(sentences_batch, padding=True, max_length=512, return_tensors='pt')
             # Send inputs to device
             inputs['input_ids'] = inputs['input_ids'].to(self.device)
             # Generate summary IDs
             summary_ids = self.model.generate(inputs['input_ids'],
-                                              num_beams=4, max_length=100,
+                                              num_beams=num_beams,
+                                              max_length=max_length,
+                                              min_length=min_length,
                                               early_stopping=True)
             # Decode summary IDs into string sentences
             summaries = self.tokenizer.batch_decode(summary_ids, skip_special_tokens=True)
