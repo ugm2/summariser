@@ -61,11 +61,13 @@ class Summariser:
         # Loop over batches of sentences
         for sentences_batch in tqdm(sentences_chunks):
             # Tokenize batch of sentences
-            inputs = self.tokenizer(sentences_batch, padding=True, max_length=512, return_tensors='pt')
+            inputs = self.tokenizer.batch_encode_plus(sentences_batch, padding=True, max_length=512, return_tensors='pt')
             # Send inputs to device
             inputs['input_ids'] = inputs['input_ids'].to(self.device)
+            inputs['attention_mask'] = inputs['attention_mask'].to(self.device)
             # Generate summary IDs
-            summary_ids = self.model.generate(inputs['input_ids'],
+            summary_ids = self.model.generate(input_ids=inputs['input_ids'],
+                                              attention_mask=inputs['attention_mask'],
                                               num_beams=num_beams,
                                               max_length=max_length,
                                               min_length=min_length,
