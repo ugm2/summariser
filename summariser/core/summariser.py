@@ -45,7 +45,7 @@ class Summariser:
         logging.info(f"Num GPUs Available: {torch.cuda.device_count()}")
         logging.info(f"Model loaded")
 
-    def summarise(self, sentences: List[str], max_length=None, min_length=None, num_beams=4):
+    def summarise(self, sentences: List[str], max_length: int = None, min_length: int = None, num_beams: int = 4):
         '''
         Generate summaries from input sentences
 
