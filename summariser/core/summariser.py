@@ -1,12 +1,13 @@
 from transformers import XLMProphetNetTokenizer, XLMProphetNetForConditionalGeneration
 import torch
-from summariser import config
+import config
 import logging
 from itertools import chain
 from tqdm import tqdm
 from typing import List
 
-logging.basicConfig(level=config.LOGGING_LEVEL)
+logging.basicConfig(level=config.LOGGING_LEVEL,
+                    format='%(levelname)s:%(message)s')
 
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
