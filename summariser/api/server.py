@@ -15,9 +15,9 @@ class Payload(BaseModel):
     sentences: List[str] = Field([first_example, 
                                   second_example],
                                  title="Input sentences")
-    max_length: int = Field(100,
+    max_length: int = Field(None,
                             title="Maximum summary length")
-    min_length: int = Field(0,
+    min_length: int = Field(None,
                             title="Minimum summary length")
     num_beams: int = Field(4,
                            title="Number of exploratory beams")
