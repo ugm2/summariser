@@ -1,2 +1,2 @@
 # summariser
-Hugging Face Transformer cross-lingual summariser 
+Hugging Face Transformer cross-lingual summariser service
