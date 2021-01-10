@@ -17,13 +17,13 @@ class Payload(BaseModel):
                                  example=[first_example, second_example])
     max_length: Optional[int] = Field(None,
                                       title="Maximum summary length",
-                                      example=None)
-    min_length: int = Field(None,
+                                      example=512)
+    min_length: Optional[int] = Field(None,
                             title="Minimum summary length",
-                            example=None)
-    num_beams: int = Field(4,
+                            example=0)
+    num_beams: Optional[int] = Field(4,
                            title="Number of exploratory beams",
-                           example=None)
+                           example=4)
 
 class Summaries(BaseModel):
     summaries: List[str] = Field(None, title="Summaries")
