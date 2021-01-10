@@ -48,3 +48,6 @@ class SummariserUnitTest(unittest.TestCase):
         ]
 
         self.assertEqual(3, len(summaries))
+        self.assertEqual(summaries[0], summaries_expected[0])
+        self.assertEqual(summaries[1], summaries_expected[1])
+        self.assertEqual(summaries[2], summaries_expected[2])

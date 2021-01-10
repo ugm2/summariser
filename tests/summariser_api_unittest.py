@@ -34,6 +34,7 @@ class SummariserAPITestCase(unittest.TestCase):
         '''
         Testing summarise endpoint
         '''
+        # correct call
         data = {
             "sentences": [
                 "Microsoft Corporation intends to officially end free support for the Windows 7 operating system",
@@ -41,11 +42,19 @@ class SummariserAPITestCase(unittest.TestCase):
             ]
         }
         response = self.client.post(
-            'summarise/',
+            '/summarise',
             json=data
         )
         assert response.status_code == 200
         data = response.json()
-        self.assertIsInstance(data, list)
-        for summary in data:
+        self.assertIn('summaries', data)
+        self.assertIsInstance(data['summaries'], list)
+        for summary in data['summaries']:
             self.assertIsInstance(summary, str)
+
+        # malformed requests
+        response = self.client.post(
+            '/summarise',
+            json={'sentences': "This is just one sentence"}
+        )
+        assert response.status_code == 422

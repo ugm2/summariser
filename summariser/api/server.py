@@ -7,13 +7,13 @@ app = FastAPI()
 summariser = Summariser()
 
 first_example = \
-"Microsoft Corporation intends to officially end free support for the Windows 7 operating system "
+"Microsoft Corporation intends to officially "
+"end free support for the Windows 7 operating system "
 second_example = \
 "根据该组织的官方门户网站，微软公司打算在2020年1月14日之后正式终止对Windows "
 
 class Payload(BaseModel):
-    sentences: List[str] = Field(None,
-                                 title="Sentences to summarise",
+    sentences: List[str] = Field(title="Sentences to summarise",
                                  example=[first_example, second_example])
     max_length: Optional[int] = Field(None,
                                       title="Maximum summary length",
@@ -27,11 +27,6 @@ class Payload(BaseModel):
 
 class Summaries(BaseModel):
     summaries: List[str] = Field(None, title="Summaries")
-
-    class Config:
-        schema_extra = {
-            "summaries": []
-        }
 
 async def summarise_async(sentences, max_length, min_length, num_beams):
     return summariser.summarise(sentences, max_length, min_length, num_beams)

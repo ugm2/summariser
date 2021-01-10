@@ -13,8 +13,10 @@ import logging
 import sys
 
 from tests.summariser_unittest import SummariserUnitTest
+from tests.summariser_api_unittest import SummariserAPITestCase
 
 assert SummariserUnitTest
+assert SummariserAPITestCase
 
 sys.path.append(os.getcwd())
 
