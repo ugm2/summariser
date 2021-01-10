@@ -30,4 +30,22 @@ class SummariserAPITestCase(unittest.TestCase):
         '''
         self.client = TestClient(app)
 
-    
+    def test_summarise_endpoint(self):
+        '''
+        Testing summarise endpoint
+        '''
+        data = {
+            "sentences": [
+                "Microsoft Corporation intends to officially end free support for the Windows 7 operating system",
+                "根据该组织的官方门户网站，微软公司打算在2020年1月14日之后正式终止对Windows "
+            ]
+        }
+        response = self.client.post(
+            'summarise/',
+            json=data
+        )
+        assert response.status_code == 200
+        data = response.json()
+        self.assertIsInstance(data, list)
+        for summary in data:
+            self.assertIsInstance(summary, str)
