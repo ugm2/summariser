@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from summariser.core.summariser import Summariser
